@@ -1,0 +1,122 @@
+<div id="main">
+  <div id="dropdowns">
+    <mat-form-field>
+      <mat-label>Building</mat-label>
+      <mat-select [(value)]="selectedBuilding" (selectionChange)="selectBuilding($event)">
+        <mat-option *ngFor="let building of buildings" [value]="building">{{building.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Sensor</mat-label>
+      <mat-select [(value)]="selectedSensor" (selectionChange)="selectSensor($event)">
+        <mat-option *ngFor="let sensor of sensors" [value]="sensor">{{sensor.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-sidenav-container class="sensor-data-sidebar">
+
+    <mat-sidenav #sidenav mode="side" [(opened)]="sidebarOpened">
+      <div *ngIf="!selectedSensor">
+        <h3 style="text-align:center;">Welcome</h3>
+        <p style="text-align:center;">To begin, please select a building and a sensor.</p>
+      </div>
+      <div *ngIf="selectedSensor">
+        <h3 style="text-align:center">{{selectedSensor.name}}</h3>
+        <div *ngIf="sensorData">
+          <div *ngFor="let item of sensorData.sensor1.sensorMeta | keyvalue">
+            <div *ngIf="item.value">
+              {{item.key}}: {{item.value}}
+            </div>
+          </div>
+        </div>
+
+        <h3 style="text-align:center;">Additional Metadata</h3>
+        <div *ngIf="additionalMetadata">
+          <a *ngFor="let addedMetadata of additionalMetadata">
+            <li (click)="selectMeta(addedMetadata)">
+              {{addedMetadata.title}}
+            </li>
+          </a>
+          <div *ngIf= "selectedMeta">
+            <p>{{selectedMeta.description}}</p>
+            <div class="meta-functions">
+              
+              <button mat-raised-button color="primary" (click)="editMetadataDialog()">Edit Metadata</button>
+              <button mat-raised-button color="primary" (click)="deleteMetadataDialog()">Delete Metadata</button>
+            </div>
+          </div>
+        </div>
+        <div class="meta-functions">
+          <button mat-raised-button color="primary" (click)="addMetadataDialog()">Add Metadata</button>
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div *ngIf="sensorData">
+        <h1 style="text-align:center">Sensor Graph</h1>
+        
+        <div class="graph-functions">
+          <button mat-raised-button color="primary" (click)="openDialog()">Add Sensor</button>
+          <button mat-raised-button color="primary" (click)="addEventDialog()">Add Event</button>
+          <div id="dropdowns">
+            <mat-form-field>
+              <mat-label>Select Your Chart</mat-label>
+              <mat-select [(value)]="selectedChart" (selectionChange)="selectChart($event)">
+                <mat-option *ngFor="let chart of charts" [value]="chart">{{chart}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+        </div>
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [constructorType]="'stockChart'"
+          [options]="chartOptions"
+          [oneToOne]=true
+          [(update)]="updateFromInput"
+          style="width:100%; height:500px; display:block;"
+          ></highcharts-chart>
+        <div *ngIf="events" style="text-align: center">
+          <div fxLayout="row">
+            <div fxFlex="40%">
+              <h3>Impacting Events</h3>
+              <ul class="grid grid-pad" style="list-style-type:none; padding-inline-start: 0px;">
+                <a *ngFor="let event of events">
+                  <li (click)="selectEvent(event)">
+                    {{event.title}}
+                  </li>
+                </a>
+              </ul>
+            </div>
+            <div fxFlex="60%">
+
+              
+              <div *ngIf="eventData">
+                <h3>Event Data: {{eventData.title}}</h3>
+                <p>{{eventData.description}}</p>
+                 
+                <div *ngIf="eventData.cluster">
+                  <p>Impacted cluster: {{eventData.cluster}}</p>
+                </div>
+
+                <p>Start: {{eventData.start}}</p>
+
+                <div *ngIf="eventData.end">
+                  <p>End: {{eventData.end}}</p>
+                </div>
+                <button mat-raised-button color="primary" (click)="deleteEventDialog()">Delete Event</button>
+                <button mat-raised-button color="primary" (click)="editEventDialog()">Edit Event</button>
+                
+              </div>
+              
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</div>

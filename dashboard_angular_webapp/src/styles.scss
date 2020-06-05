@@ -1,0 +1,70 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+#dropdowns{
+  padding-top:10px;
+  width:100%;
+  text-align:center;
+  border-bottom: solid 1px rgba(0,0,0,.12);
+
+  .mat-form-field{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.mat-drawer-opened{
+  width:400px;
+  padding:10px;
+}
+
+.mat-drawer-container{
+  height:90%;
+}
+
+#main{
+  height:100%;
+}
+
+.graph-functions{
+  text-align: center;
+
+  .mat-raised-button{
+    margin: 0 10px 10px 10px;
+  }
+}
+
+.meta-functions {
+  text-align: center;
+
+  .mat-raised-button{
+    margin-top: 20px;
+  }
+}
+
+.mat-dialog-actions{
+  float: right;
+
+  .mat-raised-button{
+    margin: 0 10px 0 10px;
+  }
+}
+
+.form-inputs{
+  width: 100%;
+}
+
+.error-message{
+  color: red;
+}
+
+.add-event{
+  text-align: center;
+  .form-inputs{
+    width: 80%;
+    margin:0 auto;
+  }
+}
